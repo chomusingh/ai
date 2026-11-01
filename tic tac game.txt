@@ -1,0 +1,111 @@
+import random
+
+Q = {}
+alpha = 0.3
+gamma = 0.9
+epsilon = 0.2
+
+def winner(b):
+    lines = [
+        (0,1,2),(3,4,5),(6,7,8),
+        (0,3,6),(1,4,7),(2,5,8),
+        (0,4,8),(2,4,6)
+    ]
+    for a,c,d in lines:
+        if b[a] == b[c] == b[d] != 0:
+            return b[a]
+    return 0
+
+def train(episodes=10000):
+    global epsilon
+
+    for _ in range(episodes):
+        b = [0]*9
+        history = []
+
+        while True:
+            state = tuple(b)
+            moves = [i for i in range(9) if b[i] == 0]
+
+            if random.random() < epsilon:
+                move = random.choice(moves)
+            else:
+                move = max(moves,
+                    key=lambda m: Q.get((state,m),0))
+
+            history.append((state,move))
+            b[move] = 1
+
+            if winner(b) == 1:
+                reward = 1
+                break
+
+            if 0 not in b:
+                reward = 0
+                break
+
+            m = random.choice([i for i in range(9) if b[i] == 0])
+            b[m] = -1
+
+            if winner(b) == -1:
+                reward = -1
+                break
+
+            if 0 not in b:
+                reward = 0
+                break
+
+        for state,move in reversed(history):
+            key = (state,move)
+            old = Q.get(key,0)
+            Q[key] = old + alpha*(reward-old)
+            reward *= gamma
+
+def play():
+    b = [0]*9
+    global epsilon
+    epsilon = 0.05
+
+    while True:
+        print("\n")
+        for i in range(0,9,3):
+            print(" | ".join(
+                "X" if x == 1 else "O" if x == -1 else str(j)
+                for j,x in enumerate(b[i:i+3],i)
+            ))
+
+        m = int(input("Your move (0-8): "))
+
+        if m not in range(9) or b[m] != 0:
+            print("Invalid move!")
+            continue
+
+        b[m] = -1
+
+        if winner(b) == -1:
+            print("You win!")
+            break
+
+        if 0 not in b:
+            print("Draw!")
+            break
+
+        moves = [i for i in range(9) if b[i] == 0]
+        state = tuple(b)
+        ai = max(moves, key=lambda m: Q.get((state,m),0))
+        b[ai] = 1
+
+        print("AI chose:",ai)
+
+        if winner(b) == 1:
+            print("AI wins!")
+            break
+
+        if 0 not in b:
+            print("Draw!")
+            break
+
+print("Training AI...")
+train(10000)
+print("Training completed!")
+play()
