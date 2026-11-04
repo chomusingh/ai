@@ -1,0 +1,14 @@
+ex6
+design, implement, and analyze the PageRank algorithm for link-based webpage authority ranking in 
+Information Retrieval using Python, Beautiful Soup (for HTML hyperlink extraction), and the Power Iteration numeric
+
+ex2
+design, construct, and evaluate an Inverted Index (Inverted File) data structure for an unstructured document 
+collection in Python, and to implement exact Boolean query retrieval (AND, OR, NOT) with postings list intersection 
+algorithms and term-frequency relevance ranking within an Information Retrieval syste
+
+
+ex1
+design, implement, and analyze an end-to-end text document pre-processing pipeline for Information Retrieval 
+systems, incorporating case normalization, punctuation and noise stripping, word tokenization, stop word filtering, and 
+morphological stemming using Python and the Natural Language Toolkit (NLTK).
