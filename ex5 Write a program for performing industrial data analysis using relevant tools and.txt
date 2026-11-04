@@ -1,0 +1,29 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Industrial production data
+data = {
+    'Machine': ['A', 'B', 'C', 'D', 'E'],
+    'Production': [100, 150, 120, 180, 140],
+    'Defects': [5, 8, 4, 10, 6]
+}
+
+# Create DataFrame
+df = pd.DataFrame(data)
+
+# Display data
+print("Industrial Data:")
+print(df)
+
+# Calculate average production
+print("\nAverage Production:", df['Production'].mean())
+
+# Calculate total defects
+print("Total Defects:", df['Defects'].sum())
+
+# Plot production graph
+plt.bar(df['Machine'], df['Production'])
+plt.xlabel("Machines")
+plt.ylabel("Production")
+plt.title("Industrial Production Analysis")
+plt.show()

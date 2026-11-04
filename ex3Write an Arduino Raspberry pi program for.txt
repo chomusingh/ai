@@ -1,0 +1,14 @@
+import time
+
+# PIR Sensor Simulation
+pir_sensor = 1
+
+while True:
+    if pir_sensor == 1:
+        print("Motion Detected!")
+    else:
+        print("No Motion Detected")
+
+    time.sleep(2)
+    pir_sensor = 0
+    break

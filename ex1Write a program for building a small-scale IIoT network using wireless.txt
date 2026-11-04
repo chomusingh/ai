@@ -1,0 +1,16 @@
+import time
+
+# IIoT Sensor Data Simulation
+import random
+
+for i in range(5):
+    temperature = random.randint(25, 40)
+    humidity = random.randint(40, 70)
+
+    print("IIoT Sensor Data")
+    print("Temperature:", temperature, "°C")
+    print("Humidity:", humidity, "%")
+    print("Data sent using MQTT Protocol")
+    print("----------------------")
+
+    time.sleep(1)
