@@ -1,0 +1,38 @@
+import numpy as np
+
+# Input: Webpage link structure
+links = {
+    "A": ["B", "C"],
+    "B": ["C"],
+    "C": ["A"]
+}
+
+pages = list(links.keys())
+n = len(pages)
+
+# Create link matrix
+M = np.zeros((n, n))
+
+for j, page in enumerate(pages):
+    for link in links[page]:
+        i = pages.index(link)
+        M[i][j] = 1
+    M[:, j] /= M[:, j].sum()
+
+# PageRank calculation
+d = 0.85
+rank = np.ones(n) / n
+
+for _ in range(100):
+    new_rank = d * M @ rank + (1 - d) / n
+    if np.linalg.norm(new_rank - rank) < 1e-6:
+        rank = new_rank
+        break
+    rank = new_rank
+
+# Output
+print("PageRank Results:")
+for page, score in zip(pages, rank):
+    print(page, ":", round(score, 4))
+
+print("\nHighest Rank Page:", pages[np.argmax(rank)])

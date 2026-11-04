@@ -1,0 +1,83 @@
+import re
+from collections import defaultdict, Counter
+
+# Small document collection
+documents = {
+    1: "Python is a programming language",
+    2: "Python is easy to learn",
+    3: "Information retrieval uses inverted index",
+    4: "Python programming uses information retrieval"
+}
+
+# Create Inverted Index
+index = defaultdict(dict)
+
+for doc_id, text in documents.items():
+    words = re.findall(r'\w+', text.lower())
+    freq = Counter(words)
+    for word, count in freq.items():
+        index[word][doc_id] = count
+
+print("INVERTED INDEX:")
+for word, postings in index.items():
+    print(word, ":", postings)
+
+# Boolean Query Operations
+def AND(a, b):
+    return a & b
+
+def OR(a, b):
+    return a | b
+
+def NOT(a):
+    return set(documents.keys()) - a
+
+# Search function
+def search(query):
+    terms = query.lower().split()
+    result = set()
+
+    if len(terms) == 3:
+        a = set(index.get(terms[0], {}))
+        b = set(index.get(terms[2], {}))
+
+        if terms[1] == "and":
+            result = AND(a, b)
+        elif terms[1] == "or":
+            result = OR(a, b)
+        elif terms[1] == "not":
+            result = AND(a, NOT(b))
+    else:
+        result = set(index.get(terms[0], {}))
+
+    return result
+
+# Example Boolean Queries
+print("\nAND Result:", search("python AND programming"))
+print("OR Result:", search("python OR retrieval"))
+print("NOT Result:", search("python NOT retrieval"))
+
+# Term Frequency Ranking
+def rank(query):
+    terms = query.lower().split()
+    scores = {}
+
+    for doc_id, text in documents.items():
+        words = re.findall(r'\w+', text.lower())
+        scores[doc_id] = sum(words.count(term) for term in terms)
+
+    ranked = sorted(scores.items(), key=lambda x: x[1], reverse=True)
+
+    print("\nTF RANKING:")
+    for doc_id, score in ranked:
+        if score > 0:
+            print("Document", doc_id, "| Score:", score,
+                  "|", documents[doc_id])
+
+rank("python programming")
+
+# Evaluation
+print("\nEVALUATION:")
+print("Total Documents:", len(documents))
+print("Total Unique Terms:", len(index))
+print("Inverted Index Built Successfully")

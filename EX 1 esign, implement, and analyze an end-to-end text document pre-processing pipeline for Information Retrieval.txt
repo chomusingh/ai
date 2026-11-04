@@ -1,0 +1,34 @@
+import nltk
+import re
+from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer
+from nltk.tokenize import word_tokenize
+
+# Download required packages
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('punkt_tab')
+
+# Single input
+text = input("Enter a text: ")
+
+# 1. Case normalization
+text = text.lower()
+
+# 2. Remove punctuation and numbers
+text = re.sub(r'[^a-z\s]', '', text)
+
+# 3. Tokenization
+words = word_tokenize(text)
+
+# 4. Stop word removal
+stop_words = set(stopwords.words('english'))
+words = [w for w in words if w not in stop_words]
+
+# 5. Stemming
+stemmer = PorterStemmer()
+result = [stemmer.stem(w) for w in words]
+
+# Display output, Students are studying Information Retrieval systems.
+print("Original Text:", text)
+print("Preprocessed Text:", result)
