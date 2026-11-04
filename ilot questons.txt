@@ -1,0 +1,16 @@
+Experiment No: 5
+Write a program for performing industrial data analysis using relevant tools and 
+techniques.
+
+
+
+ex 3
+Write an Arduino/ Raspberry pi program for
+ interfacing with PIR sensor Experiment.
+
+
+
+
+ex1
+Write a program for building a small-scale IIoT network using wireless 
+communication protoco
